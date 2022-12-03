@@ -2,7 +2,6 @@ from helpers.importHelpers import *
 
 enemyMovePoints = {"A": 1, "B": 2, "C": 3}
 myMovePoints = {"X": 1, "Y": 2, "Z": 3}
-enemyMoves = {1: "A", 2: "B", 3: "C"}
 myMoves = {1: "X", 2: "Y", 3: "Z"}
 
 def getWinningMove(enemyMove):
