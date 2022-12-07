@@ -20,10 +20,9 @@ def sumSizeBelowLimit(directory, limit):
 
 def findSmallestDirToDelete(directory, spaceToFree):
   childCandidates = []
-  if directory.size > spaceToFree:
-    for child in directory.children.values():
-      if child.size > spaceToFree:
-        childCandidates.append(findSmallestDirToDelete(child, spaceToFree))
+  for child in directory.children.values():
+    if child.size > spaceToFree:
+      childCandidates.append(findSmallestDirToDelete(child, spaceToFree))
   if len(childCandidates) == 0:
     return directory.size
   return min(childCandidates)  
