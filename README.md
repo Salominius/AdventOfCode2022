@@ -1,3 +1,5 @@
+![](https://img.shields.io/badge/stars%20⭐-12-yellow)
+![](https://img.shields.io/badge/days%20completed-6-blue)
 # AdventOfCode2022
 This year I decided to solve AdventOfCode using Python before I am going to put myself through the pain of doing it with C++ or Rust next year :)
 
