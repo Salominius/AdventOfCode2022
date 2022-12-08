@@ -1,6 +1,8 @@
 from helpers.importHelpers import *
 
-def getRanges(treeRow, treeColumn, height, width): #returns 4 lists of tuples (row, column) for the 4 directions
+#returns 4 lists of coordinate-tuples (row, column) for the 4 directions
+#coordinates reach from tree-position to border of grid
+def getDirections(treeRow, treeColumn, height, width):
   # tree -> right side:
   yield [(row, treeColumn) for row in range(treeRow+1, width)]
   # tree -> left side:
@@ -17,7 +19,7 @@ def getVisibleTrees(trees):
   for row in range(1, height - 1):
     for column in range(1, width - 1):
       # --- for every tree within the grid, we check if it is visible from the 4 directions ---
-      for direction in getRanges(row, column, height, width): #for each direction, we check if there is a higher tree
+      for direction in getDirections(row, column, height, width): #for each direction, we check if there is a higher tree
         for eachCoordinate in direction:
           if trees[eachCoordinate[0]][eachCoordinate[1]] >= trees[row][column]:
             break #if a tree is higher than the current tree, stop checking this direction
@@ -34,7 +36,7 @@ def getScenicScore(trees):
     for column in range(width):
        # --- for every tree, we calculate its scenic score ---
       thisScenicScore = 1
-      for direction in getRanges(row, column, height, width): #count how many trees are visible for each direction
+      for direction in getDirections(row, column, height, width): #count how many trees are visible for each direction
         treesInDirection = 0
         for eachCoordinate in direction:
           treesInDirection += 1
