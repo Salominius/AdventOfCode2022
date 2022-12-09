@@ -5,9 +5,9 @@ def getNormalizedDistance(distance):
     return 0
   return distance/abs(distance)
 
-def getTailPosition(oldTailPos, HeadPos):
-  diffX = HeadPos[0] - oldTailPos[0]
-  diffY = HeadPos[1] - oldTailPos[1]
+def getTailPosition(oldTailPos, headPos):
+  diffX = headPos[0] - oldTailPos[0]
+  diffY = headPos[1] - oldTailPos[1]
   if abs(diffX) <= 1 and abs(diffY) <= 1:
     return oldTailPos
 
@@ -15,7 +15,7 @@ def getTailPosition(oldTailPos, HeadPos):
   diffY = getNormalizedDistance(diffY)
   return (oldTailPos[0] + diffX, oldTailPos[1] + diffY)
 
-def getVisitedPositions(input, ropeLength):
+def getVisitedPositions(stringInput, ropeLength):
   knots = [(0,0)] * ropeLength  #knots[0] is the head, knots[-1] is the tail
   visitedPositions = set()
   for line in stringInput.split("\n"):
@@ -33,8 +33,8 @@ def getVisitedPositions(input, ropeLength):
 
     for _ in range(distance):
       knots[0] = (knots[0][0] + diffX, knots[0][1] + diffY) #move head
-      for j in range(1, len(knots)):  #move tail accordingly
-        knots[j] = getTailPosition(knots[j], knots[j-1])
+      for i in range(1, len(knots)):  #move tail accordingly
+        knots[i] = getTailPosition(knots[i], knots[i-1])
       visitedPositions.add(knots[-1])
   return(len(visitedPositions))
 
