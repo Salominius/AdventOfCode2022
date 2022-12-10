@@ -1,16 +1,17 @@
 from helpers.importHelpers import *
 
 def drawPixel(pixelDrawn, spritePosition):
-  if pixelDrawn % 40 == 0:
-    print("")
+  pixel = "" if pixelDrawn%40 else "\n"
   if abs(pixelDrawn%40 - spritePosition) <= 1:
-    print("\u2588", end = "")
+    pixel += "\u2588"
   else:
-    print(" ", end = "")
+    pixel += " "
+  return pixel  
 
 stringInput = getInput()
 
 resultPart1 = 0
+resultPart2 = ""
 registerX = 1
 cycle = 0
 operationQueue = []
@@ -26,10 +27,10 @@ for operation in operationQueue:
   #cycle started
   if (cycle - 20)%40 == 0:
     resultPart1 += cycle*registerX
-  drawPixel(pixelDrawn, registerX)
+  resultPart2 += drawPixel(pixelDrawn, registerX)
   #cycle ended
   registerX += operation
   pixelDrawn += 1
 
-print("")
 print("Part 1: ", resultPart1)
+print("Part 2: ", resultPart2)
