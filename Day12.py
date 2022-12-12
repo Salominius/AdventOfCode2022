@@ -14,27 +14,19 @@ def getValidNeighbors(heightMap, current, reversed):
         if heightMap[y][x] <= heightMap[currentY][currentX]+1:
           yield (x, y)
 
-def bfs(heightMap, start, reversed = False):
+def bfs(heightMap, start, endFunc, reversed = False):
   queue = [start]
   visited = set()
   cost = {(start): 0}
   while queue:
     current = queue.pop(0)
+    if endFunc(current): #endFunc(current) is true, if current is the goal
+      return cost[current]
     for neighbor in getValidNeighbors(heightMap, current, reversed):
       if neighbor not in visited or cost[current] + 1 < cost[neighbor]:
         cost[neighbor] = cost[current] + 1
         queue.append(neighbor)
         visited.add(neighbor)
-  return cost
-
-def part2(end):
-  cost = bfs(heightMap, end, reversed)
-  costs = []
-  for y, line in enumerate(heightMap):
-    for x, char in enumerate(line):
-      if char == 0 and (x,y) in cost:
-        costs.append(cost[(x,y)])
-  return min(costs)
 
 stringInput = getInput()
 heightMap = []
@@ -52,5 +44,5 @@ for y, line in enumerate(stringInput.split("\n"), 0):
       case _:
         heightMap[y].append(chars.index(char))
 
-print("Part 1: ", bfs(heightMap, start)[end])
-print("Part 2: ", part2(end))
+print("Part 1: ", bfs(heightMap, start, lambda position: position == end))
+print("Part 2: ", bfs(heightMap, end, lambda position: heightMap[position[1]][position[0]] == 0, reversed = True))
