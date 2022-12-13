@@ -15,27 +15,25 @@ def compare(first, second):
   return compare(first, [second])
 
 def part1(stringInput):
+  counter = 0
   i = 1
-  rightOrderCounter = 0
-  x = iter(stringInput.replace("\n\n", "\n").split("\n"))
-  for first, second in zip(x, x):
-    first = eval(first)
-    second = eval(second)
-    if(compare(first, second)) > 0:
-      rightOrderCounter += i
-    i += 1
-  return(rightOrderCounter)
+  x = iter(stringInput)
+  for first, second in zip(x,x):
+    if compare(eval(first), eval(second)) > 0:
+      counter += i
+    i += 1  
+  return counter
 
 def part2(stringInput):  
   sortedList = [[[2]], [[6]]]
 
-  for line in stringInput.replace("\n\n", "\n").split("\n"):
+  for line in stringInput:
     sortedList.append(eval(line))
 
   sortedList.sort(key=functools.cmp_to_key(compare), reverse=True)  
   return (sortedList.index([[6]]) + 1) * (sortedList.index([[2]]) + 1)
 
 
-stringInput = getInput()
+stringInput = getInput().replace("\n\n", "\n").splitlines()
 print("Part 1: ", part1(stringInput)) #5852
 print("Part 2: ", part2(stringInput)) #24190
