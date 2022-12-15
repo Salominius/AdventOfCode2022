@@ -1,10 +1,10 @@
 from helpers.importHelpers import *
+import re
 
 def parseInput(stringInput = getInput()):
   for line in stringInput.split("\n"):
-    x1, y1, x2, y2 = map(lambda x: int(x.split(",")[0]), line.replace(":", ",").split("=")[1:])
-    yield (x1, y1, x2, y2)
-  
+    yield map(int, re.findall(r"-?\d+", line))
+
 def part1(y = 2000000):
   row = set()
   beaconsInRow = set()
@@ -24,19 +24,13 @@ def part2(limit = 4000000):
     euclidianDistance = abs(x1 - x2) + abs(y1 - y2)
     scanners.append((x1, y1, euclidianDistance))
 
-  y = 0
-  while y < limit:
+  for y in range(limit+1):
     x = 0
-    while x < limit:
+    while x <= limit:
       for xScanner, yScanner, vision in scanners:
-        distance = abs(y-yScanner) + abs(x-xScanner)
-        if distance <= vision: #scanner sees us
-          if x < xScanner:
-            skip = vision - distance + vision - abs(y - yScanner) + 1
-          else:
-            skip = vision - distance + 1
-          #print("scanner at", xScanner, yScanner, "with vision", vision, "sees", x, y, "skipping", skip, "steps")
-          x += skip
+        distance = abs(y-yScanner) + abs(x-xScanner) #distance to scanner
+        if distance <= vision: #scanner sees us if distance is less or equal to vision
+          x = xScanner + vision - abs(y - yScanner) + 1 # set x to the right side of the scanner
           break
       else:
         return x*4000000+y
