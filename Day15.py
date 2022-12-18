@@ -9,9 +9,9 @@ def part1(y = 2000000):
   row = set()
   beaconsInRow = set()
   for x1, y1, x2, y2 in parseInput():
-    euclidianDistance = abs(x1 - x2) + abs(y1 - y2)
+    manhattenDistance = abs(x1 - x2) + abs(y1 - y2)
     yDistance = abs(y1 - y)
-    for width in range(euclidianDistance - yDistance + 1):
+    for width in range(manhattenDistance - yDistance + 1):
       row.add(x1+width)
       row.add(x1-width)
     if y2 == y:
@@ -21,8 +21,8 @@ def part1(y = 2000000):
 def part2(limit = 4000000):
   scanners = []
   for x1, y1, x2, y2 in parseInput():
-    euclidianDistance = abs(x1 - x2) + abs(y1 - y2)
-    scanners.append((x1, y1, euclidianDistance))
+    manhattenDistance = abs(x1 - x2) + abs(y1 - y2)
+    scanners.append((x1, y1, manhattenDistance))
 
   for y in range(limit+1):
     x = 0
