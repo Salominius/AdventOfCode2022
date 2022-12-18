@@ -1,18 +1,14 @@
 from helpers.importHelpers import *
 
 def getCubes(stringInput):
-  return [list(map(int, line.split(","))) for line in stringInput.split("\n")]
+  return [tuple(map(int, line.split(","))) for line in stringInput.split("\n")]
 
 def touching(cube1, cube2):
   return abs(cube1[0] - cube2[0]) + abs(cube1[1] - cube2[1]) + abs(cube1[2] - cube2[2]) == 1
 
-def getSourroundingFields(position): #single yield-statements are faster than iterating over a list of directions
-  yield (position[0]+1, position[1], position[2])
-  yield (position[0]-1, position[1], position[2])
-  yield (position[0], position[1]+1, position[2])
-  yield (position[0], position[1]-1, position[2])
-  yield (position[0], position[1], position[2]+1)
-  yield (position[0], position[1], position[2]-1)
+def getSourroundingFields(position):
+  x, y, z = position
+  return [(x+1, y, z), (x-1, y, z), (x, y+1, z), (x, y-1, z), (x, y, z+1), (x, y, z-1)]
 
 def part1(cubes):
   surfaceArea = 6*len(cubes) #calculate surface area of all cubes (6 faces per cube)
@@ -31,7 +27,7 @@ def part2(cubes):
   minZ = min([cube[2] for cube in cubes])-1
   maxZ = max([cube[2] for cube in cubes])+1
   # Find all water outside the cubes using floodfill
-  water = floodFill(minX, maxX, minY, maxY, minZ, maxZ, cubes, [maxX, maxY, maxZ], set())
+  water = floodFill(minX, maxX, minY, maxY, minZ, maxZ, cubes, (maxX, maxY, maxZ), set())
   # Increase surface area each time a cube touches water
   surfaceArea = 0
   for i in range(len(cubes)):
@@ -46,20 +42,11 @@ def floodFill(minX, maxX, minY, maxY, minZ, maxZ, cubes, currentField, visitedFi
   stack.append(currentField)
   while len(stack) > 0:
     currentField = stack.pop()
-    if currentField not in cubes and tuple(currentField) not in visitedFields:
-      visitedFields.add(tuple(currentField))
-      if currentField[0] > minX:
-        stack.append([currentField[0]-1, currentField[1], currentField[2]])
-      if currentField[0] < maxX:
-        stack.append([currentField[0]+1, currentField[1], currentField[2]])
-      if currentField[1] > minY:
-        stack.append([currentField[0], currentField[1]-1, currentField[2]])
-      if currentField[1] < maxY:
-        stack.append([currentField[0], currentField[1]+1, currentField[2]])
-      if currentField[2] > minZ:
-        stack.append([currentField[0], currentField[1], currentField[2]-1])
-      if currentField[2] < maxZ:
-        stack.append([currentField[0], currentField[1], currentField[2]+1])
+    if currentField not in cubes and currentField not in visitedFields:
+      visitedFields.add(currentField)
+      for x, y, z in getSourroundingFields(currentField):
+        if (minX <= x <= maxX) and (minY <= y <= maxY) and (minZ <= z <= maxZ):
+          stack.append((x, y, z))
   return visitedFields
 
 cubes = getCubes(getInput())
