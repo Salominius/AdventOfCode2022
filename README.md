@@ -6,8 +6,8 @@ This year I decided to solve AdventOfCode using Python before I am going to put 
 ## Structure
 * ``helpers`` contains a default-template for new days and helper-functions. 
 I will probably add more generic functions there, as the days get more difficult.
-``ImportHelpers.getInput()`` is the default-import function input. It reads the day # from the fileName (``...#.py``) and returns the content of ``inputs.input#.txt`` as String
-* ``inputs`` contains all inputs in numbered files (``input#.py``).
+``ImportHelpers.getInput()`` is my default input-import-function. It reads the day # from the fileName (``...#.py``) and returns the content of ``inputs.input#.txt`` as String
+* ``inputs`` contains all inputs in numbered files (``input#.txt``).
 * The ``days`` are stored in the base-directory as ``Day#.py``.
 
 ## Run
